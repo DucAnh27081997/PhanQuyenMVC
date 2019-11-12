@@ -1,0 +1,100 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/adminstrator/Views/Shared/AdminView.cshtml";
+}
+<a href="/Admin/Accounts/Index">Danh mục người dùng</a>/<a href="#">Cấp quyền người dùng</a>
+<b>@ViewBag.UserGant</b>
+<div id="msg"></div>
+<div class="row">
+    <div class="col-md-4 col-xs-4">
+        <h4>Danh sách nghiệp vụ</h4>
+        @Html.DropDownList("GantPermissionController", (IEnumerable<SelectListItem>)ViewBag.items, new { size = 10, onchange = "GetPermissions('/GantPermission/getPermissions/'+this.value,'" + Session["UserGant"] + "');" });
+    </div>
+    <div class="col-md-4 col-xs-4">
+        <h4>Danh sách quyền</h4>
+        <ul id="lstAction"></ul>
+    </div>
+</div>
+
+<script>
+
+    function GetPermissions(action, usergrant) {
+        $.ajax({
+            method: "GET",
+            url: action,
+            data: { usertemp: usergrant },
+            success: function (data) {
+
+                $("#lstAction").html('');
+                $("#lstAction").append("<input  type='checkbox' id='checkAll' value='ahihi'/>All<br>");
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].isGranted) {
+                        $("#lstAction").append("<input  type='checkbox' name='check' checked onchange='updatePermission(" + data[i].PermissionId + "," +@Session["UserGant"] +");' value='" + data[i].PermissionId + "' />" + data[i].Description + "<br>");
+
+                    }
+                    else {
+
+                        $("#lstAction").append("<input  type='checkbox' name='check'  onchange='updatePermission(" + data[i].PermissionId + "," +@Session["UserGant"] +");' value='" + data[i].PermissionId + "' />" + data[i].Description + "<br>");
+                    }
+                }
+                      // dem so funtion dc tich
+                    var temp = 0;
+                 $("input[name='check']").each(function () {
+                        if (this.checked === true) {
+                            temp++;
+                        }
+                 });
+                console.log($("input[name='check']").length);
+                if (temp === $("input[name='check']").length) {
+                    //$("#checkAll").checked = true;
+                    //console.log("số ô đc check bằng tổng số ô có "+$("#checkAll").value);
+                    console.log("bang nhau");
+                }
+                console.log(temp);
+
+                $("#checkAll").click(function () {
+                    var status = this.checked;
+
+              
+                    $("input[name='check']").each(function () {
+                        if (this.checked != status) {
+                            updatePermission(this.value,@Session["UserGant"]);
+                            this.checked = status;
+                           
+                        }
+                    });
+
+                }); //đặt cho cái id cho all và tag chưa 4 tag còn lại một cái name xong chèn code này vô
+
+            },
+            error: function () {
+                toastr.err("Lỗi không thể lấy đc dữ liệu mất kết nối với máy chủ!");
+            }
+        })
+    }
+
+
+    function updatePermission(action, usergrant) {
+        var Data = { id: action, usertemp: usergrant };
+        $.ajax({
+            method: "POST",
+            url: "/GantPermission/updatePermission",
+            data: Data,
+
+            success: function (data) {
+                if (data.Result === "success") {
+                    toastr.info(data.Message);
+                }
+                else {
+                    toastr.error(data.Message);
+                }
+            }
+            ,
+            error: function () {
+                toastr.err(data);
+            }
+        });
+    }
+</script>
+

@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/adminstrator/Views/Shared/AdminView.cshtml";
+}
+
+<b>Lich sử đăng đăng nhập user</b>
+<div class="box-body"  ng-app="myApp" ng-controller="LogCtrl">
+    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="dataTables_length" id="example1_length">
+                    <label>
+                        Show
+                        <select name="example1_length" aria-controls="example1" class="form-control input-sm">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select> entries
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="dataTables_length" id="example1_length">
+                    <label>
+                        Loai nguoi dung
+                        <select name="example1_length" ng-model="typeuser" aria-controls="example2" class="form-control input-sm">
+                            <option value="1" selected="selected">all</option>
+                            <option value="1">admin</option>
+                            <option value="0">user</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div id="example1_filter" class="">
+                    <label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="example1"></label>
+                </div>
+            </div>
+        </div>
+  
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table table-responsive">
+                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting_desc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" aria-sort="descending">ID</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1">User ID</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1">IP publich</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1">Agent</th>
+                                <th class="sorting" tabindex="0" aria-controls="example1">Date Access</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr role="row" class="even" ng-repeat="item in list">
+                                <td class="sorting_1">{{item.UserLogsID}}</td>
+                                <td>{{item.IDUser}}</td>
+                                <td>{{item.IPpublic}}</td>
+                                <td>{{item.UserAgent}}</td>
+                                <td>{{item.DateAccess| date : "dd/MM/yyyy h:mm:ss a"}}</td>
+                                <td>
+                                    <label class="switch">
+                                        <input type="checkbox" ng-click="ActiveAccount(item.UserId)" ng-checked="item.Allowed">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            @*<tr>
+                        <th class="sorting_desc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" aria-sort="descending">ID</th>
+                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 220px;">User Name</th>
+                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">FullName</th>
+                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Email</th>
+                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Phone Number</th>
+                    </tr>*@
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    
+</div>
+<script src="~/Areas/adminstrator/JS/Logs.js"></script>

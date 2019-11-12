@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "CheckOTP";
+    Layout = "~/Areas/adminstrator/Views/Shared/AdminView.cshtml";
+}
+<div class="col-md-6">
+    <!-- Horizontal Form -->
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Xac nhap ma OTP</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" action=".\OTPauthetication" method="post">
+            <div class="box-body">
+                <div class="form-group">
+                    <b>một mã OTP đã được gửi đến địa chỉ mail @Session["userEmail"] cua ban vui lòng xác thực</b>
+                </div>
+                <div class="form-group">
+                    <label for="OTP" class="col-sm-2 control-label">OTP code</label>
+
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="OTP" id="OTP" placeholder="mã OTP của bạn.">
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button type="submit" class="btn btn-info pull-right" id="update_pass">Xác thực</button>
+            </div>
+            <!-- /.box-footer -->
+        </form>
+        
+    </div>
+</div>
+
+
+
+

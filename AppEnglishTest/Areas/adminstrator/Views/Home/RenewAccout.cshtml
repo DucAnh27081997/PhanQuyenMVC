@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "RenewAccout";
+    Layout = "~/Areas/adminstrator/Views/Shared/AdminView.cshtml";
+}
+
+<div class="col-md-6">
+    <!-- Horizontal Form -->
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Horizontal Form</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" action=".\FogetPassword" method="post">
+            <div class="box-body">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <label for="inputEmail3">Vui lòng nhập Tên User va email hoặc số điện thoại để tìm kiếm tài khoản.</label>
+                    </div>
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" name="UserName" id="UserName" placeholder="UserName">
+                    </div>
+                    
+                    
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" name="AdressMail" id="AdressMail" placeholder="Email">
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <a  class="btn btn-default" href="./Home/Login">
+                   Hủy
+                </a>
+                <button type="submit" class="btn btn-info pull-right">Tìm kiếm</button>
+            </div>
+            <!-- /.box-footer -->
+        </form>
+    </div>
+    <!-- /.box -->
+
+</div>
+

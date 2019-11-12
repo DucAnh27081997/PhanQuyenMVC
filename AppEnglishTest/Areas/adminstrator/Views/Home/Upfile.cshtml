@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Upfile";
+    Layout = "~/Areas/adminstrator/Views/Shared/AdminView.cshtml";
+}
+
+<h2>Upfile</h2>
+@using (Html.BeginForm("Upfile", "Home",FormMethod.Post, new {enctype = "multipart/form-data" }))
+{
+    <h3>File u want upload</h3>
+    <input multiple name="files" type="file" value="Broser"/>
+    <input type="submit" value="Upload"/>
+}
+@if (ViewBag.UploafFileSuccess != "")
+{
+    <span style="color:green">@ViewBag.UploafFileSuccess</span>
+}
+<br />
+@if (ViewBag.UploafFileFileError != "")
+{
+    <span style="color:red">@ViewBag.UploafFileFileError</span>
+}

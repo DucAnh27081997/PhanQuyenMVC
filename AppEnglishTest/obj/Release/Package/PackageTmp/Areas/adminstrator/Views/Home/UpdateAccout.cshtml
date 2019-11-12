@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "UpdateAccout";
+    Layout = "~/Areas/adminstrator/Views/Shared/AdminView.cshtml";
+}
+
+<div class="col-md-6">
+    <!-- Horizontal Form -->
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Update password</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal">
+            <div class="box-body">
+                <div class="form-group">
+                    <b>Chap nhat mat khau : @Session["userName"]</b>
+                </div>
+                <div class="form-group">
+                    <label for="new_password" class="col-sm-5 control-label">New Password</label>
+
+                    <div class="col-sm-7">
+                        <input type="password" class="form-control" id="new_password" placeholder="New Password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="repeate_new_password" class="col-sm-5 control-label">Repeate New Password</label>
+
+                    <div class="col-sm-7">
+                        <input type="password" class="form-control" id="repeate_new_password" placeholder="Repeate New Password">
+                    </div>
+                </div>
+                @*<div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> Remember me
+                    </label>
+                </div>
+            </div>
+        </div>*@
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button type="button" class="btn btn-info pull-right" id="update_pass">Update</button>
+            </div>
+            <!-- /.box-footer -->
+        </form>
+    </div>
+    <!-- /.box -->
+    <script>
+        $(document).ready(function () {
+
+            alert("hello");
+            $("#update_pass").click(function () {
+
+                var pass1 = $("#new_password").val();
+                var pass2 = $("#repeate_new_password").val();
+                var Data = { newPass: pass1 };
+                if (pass1 == pass2) {
+                    $.ajax({
+                        method: "POST",
+                        url: "/Accounts/UpdatePassWord",
+                        data: Data,
+                        success: function (data) {
+                            if (data = "Success") {
+                                toastr.info(data);
+                                window.location="../Accounts/Index";
+                            }
+                            else {
+                                toastr.info(data);
+                            }
+                        }
+
+                    });
+                }
+                else {
+                    alert("password khong giong nhau");
+                }
+
+            });
+
+        });
+    </script>
+</div>
+
+

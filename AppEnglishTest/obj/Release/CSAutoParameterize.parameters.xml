@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="StringConnection-Web.config Connection String" description="StringConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=SQL5046.site4now.net;Initial Catalog=DB_A4F425_English2;User Id=DB_A4F425_English2_admin;Password=0433835891Aa;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Document5\\KiI\\PhanQuyenEnglishApp\\ShopSmart\\AppEnglishTest\\AppEnglishTest\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='StringConnection']/@connectionString" />
+  </parameter>
+  <parameter name="AppEnglishTestContext-Web.config Connection String" description="AppEnglishTestContext Connection String used in web.config by the application to access the database." defaultValue="Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=AppEnglishTestContext-20190921005245; Integrated Security=True; MultipleActiveResultSets=True; AttachDbFilename=|DataDirectory|AppEnglishTestContext-20190921005245.mdf" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Document5\\KiI\\PhanQuyenEnglishApp\\ShopSmart\\AppEnglishTest\\AppEnglishTest\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='AppEnglishTestContext']/@connectionString" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection Connection String used in web.config by the application to access the database." defaultValue="DefaultConnection_ConnectionString" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Document5\\KiI\\PhanQuyenEnglishApp\\ShopSmart\\AppEnglishTest\\AppEnglishTest\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+</parameters>

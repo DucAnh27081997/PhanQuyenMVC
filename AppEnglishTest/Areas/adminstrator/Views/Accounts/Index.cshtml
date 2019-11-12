@@ -1,0 +1,559 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/adminstrator/Views/Shared/AdminView.cshtml";
+}
+@if (Session["error"] != null)
+{
+    <script>
+        alert("@Session["error"]");
+    </script>
+}
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+    .admin {
+        background: #f86767;
+    }
+
+    .use {
+        background: #4cff00;
+    }
+</style>
+<div ng-app="myApp" ng-controller="myCtrl">
+
+    <div class="box box-default color-palette-box">
+        <div class="box-header with-border">
+            <h3 class="box-title"><i class="fa fa-tag"></i> Color Palette</h3>
+        </div>
+
+        <div class="box-body">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Data Table With Full Features</h3>
+                    <button ng-click="LoadData()" class="btn btn-success">LoadData</button>
+                    <a class="btn btn-success" href="/Admin/Accounts/Create">Tạo người dùng</a>
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                        <i class="fa fa-address-card"></i>
+                    </button>
+                    <div>
+                        @*@Html.ActionLink("Export to PDF", "Export", new { ReportType = "PDF" }) <b>/</b>
+                                @Html.ActionLink("Export to EXCEL", "Export", new { ReportType = "Excel" })<b>/</b>
+                                @Html.ActionLink("Export to WORD", "Export", new { ReportType = "Word" })<b>/</b>
+                            Html.ActionLink("Export to PNG", "Export", new { ReportType = "PNG" })*@
+                        @Html.ActionLink("Export to PDF", "Export2")
+                        <button id="show">show modan Edit</button>
+                        <script>
+
+                        </script>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="dataTables_length" id="example1_length">
+                                    <label>
+                                        Show
+                                        <select name="example1_length" aria-controls="example1" class="form-control input-sm">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> entries
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="dataTables_length" id="example1_length">
+                                    <label>
+                                        Loai nguoi dung
+                                        <select name="example1_length" ng-model="typeuser" aria-controls="example2" class="form-control input-sm">
+                                            <option value="1" selected="selected">all</option>
+                                            <option value="1">admin</option>
+                                            <option value="0">user</option>
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div id="example1_filter" class="">
+                                    <label>Search:<input type="search" class="form-control input-sm" placeholder="" aria-controls="example1"></label>
+                                </div>
+                            </div>
+                        </div>
+                        {{typeuser}}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="sorting_desc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" aria-sort="descending">ID</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1">User Name</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1">FullName</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1">Email</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1">Phone Number</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1">Active</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1">Status</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr role="row" class="even" ng-repeat="item in list">
+                                            <td class="sorting_1">{{item.UserId}}</td>
+                                            <td>{{item.UserName}}</td>
+                                            <td>{{item.FullName}}</td>
+                                            <td>{{item.Email}}</td>
+                                            <td>{{item.PhoneNumber}}</td>
+                                            <td>
+                                                <a class="btn btn-sm btn-success" href="/admin/Accounts/Edit/{{item.UserId}}"><i class="fa fa-text-height"></i></a>
+                                                <a class="btn btn-sm btn-danger" ng-click="" data-toggle="modal" data-target="#modal-edit"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-sm btn-info" href="/admin/Accounts/Details/{{item.UserId}}"><i class="far fa-file-text"></i></a>
+                                                <a class="btn btn-sm btn-info" href="/admin/GantPermission/Index/{{item.UserId}}"><i class="far fa-user"></i></a>
+                                                <a class="btn btn-sm btn-info" ng-click="DeleteUser(item.UserId)"><i class="far fa-remove"></i></a>
+                                            </td>
+                                            <td>
+                                                <label class="switch">
+                                                    <input type="checkbox" ng-click="ActiveAccount(item.UserId)" ng-checked="item.Allowed">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th class="sorting_desc" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Rendering engine: activate to sort column ascending" aria-sort="descending">ID</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" style="width: 220px;">User Name</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">FullName</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Email</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Phone Number</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Phone Number</th>
+                                            <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Active</th>
+
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+
+    <section class="content">
+        <div class="callout callout-info">
+            <h4>Reminder!</h4>
+            Instructions for how to use modals are available on the
+            <a href="http://getbootstrap.com/javascript/#modals">Bootstrap documentation</a>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Modal Examples</h3>
+                    </div>
+                    <div class="box-body">
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
+                            Launch Default Modal
+                        </button>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-info">
+                            Launch Info Modal
+                        </button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
+                            Launch Danger Modal
+                        </button>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-warning">
+                            Launch Warning Modal
+                        </button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-success">
+                            Launch Success Modal
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade in" id="modal-default" padding-right: 17px;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title">Default Modal</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="">
+                            <!-- form start -->
+                            <form role="form">
+
+                                <!-- /.box-body -->
+                                <div class="box-body">
+                                    <div class="col-xs-6 form-group">
+                                        <label for="exampleInputEmail1">User Name</label>
+                                        <input type="text" class="form-control" ng-model="UserNameForm" placeholder=".col-xs-3">
+                                    </div>
+                                    <div class="col-xs-6 form-group">
+                                        <label for="exampleInputEmail1">Full Name</label>
+                                        <input type="text" class="form-control" ng-model="FullNameForm" placeholder=".col-xs-4">
+                                    </div>
+                                    <div class="col-xs-6 form-group">
+                                        <label for="exampleInputEmail1">Password</label>
+                                        <input type="text" class="form-control" ng-model="PasswordForm" placeholder=".col-xs-5">
+                                    </div>
+
+
+                                    <div class="col-xs-6 form-group">
+                                        <label for="exampleInputEmail1">IP public</label>
+                                        <input type="text" class="form-control" ng-model="IPpublicForm" placeholder=".col-xs-5">
+                                    </div>
+
+                                    <div class="col-xs-6 form-group">
+                                        <label for="exampleInputEmail1">PhoneNumber</label>
+                                        <input type="text" class="form-control" ng-model="PhoneNumberForm" placeholder=".col-xs-5">
+                                    </div>
+                                    <div class="col-xs-6 form-group">
+                                        <label for="exampleInputEmail1">Email</label>
+                                        <input type="text" class="form-control" ng-model="EmailForm" placeholder=".col-xs-5">
+                                    </div>
+                                    <div class="col-xs-3 form-group">
+                                        <label for="exampleInputEmail1">is Admin</label>
+                                        <label class="switch">
+                                            <input type="checkbox" ng-click="" ng-model="isAdminForm">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                    <div class="col-xs-3 form-group">
+                                        <label for="exampleInputEmail1">Checked</label>
+                                        <label class="switch">
+                                            <input type="checkbox" ng-init="isCheckedForm=true" ng-model="isCheckedForm">
+                                            <span class="slider round"></span>
+
+                                        </label>
+                                    </div>
+                                    <div class="col-xs-6 form-group">
+                                        <img src="/" />
+                                    </div>
+                                    <div class="col-xs-3 form-group">
+                                        <label for="exampleInputEmail1">choise image</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    UserName : {{UserNameForm}}
+                                    <br>Password : {{PasswordForm}}
+                                    <br>FullName : {{FullNameForm}}
+                                    <br>is Admin: {{isAdminForm}}
+                                    <br>is Alowed: {{isAlowedForm}}
+                                    <br>Phone Number: {{PhoneNumberForm}}
+                                    <br>Email : {{EmailForm}}
+                                    <br>Checked : {{isCheckedForm}}
+                                </div>
+                                <div class="box-footer">
+                                    <button type="submit" ng-click="AddUser()" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+        <div class="modal fade in" id="modal-edit" padding-right: 17px;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title">Update User </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="">
+                            <!-- form start -->
+                            <form role="form">
+
+                                <!-- /.box-body -->
+                                <div class="box-body">
+                                    <div class="col-xs-6 form-group">
+                                        <label for="exampleInputEmail1">User Name</label>
+                                        <input type="text" class="form-control" ng-model="UserNameForm" placeholder=".col-xs-3">
+                                    </div>
+
+                                    <div class="col-xs-6 form-group">
+                                        <label for="exampleInputEmail1">Password</label>
+                                        <input type="text" class="form-control" ng-model="PasswordForm" placeholder=".col-xs-5">
+                                    </div>
+                                    <div class="col-xs-6 form-group">
+                                        <label for="exampleInputEmail1">Full Name</label>
+                                        <input type="text" class="form-control" ng-model="FullNameForm" placeholder=".col-xs-4">
+                                    </div>
+
+                                    <div class="col-xs-6 form-group">
+                                        <label for="exampleInputEmail1">IP public</label>
+                                        <input type="text" class="form-control" ng-model="IPpublicForm" placeholder=".col-xs-5">
+                                    </div>
+
+                                    <div class="col-xs-6 form-group">
+                                        <label for="exampleInputEmail1">pictutre</label>
+                                        <input type="text" class="form-control" ng-model="IPpublicForm" placeholder=".col-xs-5">
+                                    </div>
+
+                                    <div class="col-xs-6 form-group">
+                                        <label for="exampleInputEmail1">PhoneNumber</label>
+                                        <input type="text" class="form-control" ng-model="PhoneNumberForm" placeholder=".col-xs-5">
+                                    </div>
+                                    <div class="col-xs-6 form-group">
+                                        <label for="exampleInputEmail1">Email</label>
+                                        <input type="text" class="form-control" ng-model="EmailForm" placeholder=".col-xs-5">
+                                    </div>
+                                    <div class="col-xs-3 form-group">
+                                        <label for="exampleInputEmail1">is Admin</label>
+                                        <label class="switch">
+                                            <input type="checkbox" ng-click="" ng-model="isAdminForm">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                    <div class="col-xs-3 form-group">
+                                        <label for="exampleInputEmail1">Checked</label>
+                                        <label class="switch">
+                                            <input type="checkbox" ng-init="isCheckedForm=true" ng-model="isCheckedForm">
+                                            <span class="slider round"></span>
+
+                                        </label>
+                                    </div>
+                                    <div class="col-xs-6 form-group">
+                                        <img src="/" />
+                                    </div>
+                                    <div class="col-xs-3 form-group">
+                                        <label for="exampleInputEmail1">choise image</label>
+                                    </div>
+                                </div>
+                                <div>
+                                    UserName : {{UserNameForm}}
+                                    <br>Password : {{PasswordForm}}
+                                    <br>FullName : {{FullNameForm}}
+                                    <br>is Admin: {{isAdminForm}}
+                                    <br>is Alowed: {{isAlowedForm}}
+                                    <br>Phone Number: {{PhoneNumberForm}}
+                                    <br>Email : {{EmailForm}}
+                                    <br>Checked : {{isCheckedForm}}
+                                </div>
+                                <div class="box-footer">
+                                    <button type="submit" ng-click="AddUser()" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <div class="modal modal-primary fade" id="modal-primary">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title">Primary Modal</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>One fine body…</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline">Save changes</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <div class="modal modal-info fade" id="modal-info">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title">Info Modal</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>One fine body…</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline">Save changes</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <div class="modal modal-warning fade" id="modal-warning">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title">Warning Modal</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>One fine body…</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline">Save changes</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <div class="modal modal-success fade" id="modal-success">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title">Success Modal</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>One fine body…</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline">Save changes</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <div class="modal modal-danger fade" id="modal-danger">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title">Danger Modal</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>One fine body…</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline">Save changes</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+    </section>
+</div>
+
+<!--Modan-->
+@*<div>
+        <button id="show_info()">show info</button>
+    </div>
+    <script>
+                $(document).ready(function () {
+                    var show = function () {
+                    alert("id: " +@Session["userid"]+
+
+                    "name: "+@Session["userName"]+
+                    "name: "+@Session["userEmail"]);
+                    }
+                });
+    </script>*@
+<script src="~/Areas/adminstrator/JS/Account.js"></script>
